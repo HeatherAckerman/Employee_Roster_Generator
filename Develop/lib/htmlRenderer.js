@@ -11,20 +11,61 @@ const Intern = require("./Intern");
 const Manager = require("./Manager");
 
 //Create an empty array to push the Employees to
-
+let employeeRoster = [];
 //Create a counter to keep track of Employee ID
-
+let employeeId = 1;
 //There can only be one Manager per team so start by using prompts to get the Manager's info so there are less choices
+function getManagerInfo() {
 
-//Push Manager to the empty array
+  inquirer
+  .prompt([
+    {
+      message: "What is the name of the engineering team's manager?",
+      name: "eTeamManager",
+      type: "input"  
+    },
+    {
+      message: "What is the manager's email address?",
+      name: "eTeamManagerEmail",
+      type: "input"  
+    },
+    {
+      message: "What is the manager's office number?",
+      name: "eTeamManagerOffice",
+      type: "input"  
+    },
+  ])
+  .then(function(response) {
+    let eTeamManager = response.eTeamManager;
+    let eTeamManagerEmail = response.eTeamManagerEmail;
+    let eTeamManagerOffice = response.eTeamManagerOffice;
+    //Create new manager //ID has to go second!
+    let manager = new Manager(
+      eTeamManager,
+      employeeId,
+      eTeamManagerEmail,
+      eTeamManagerOffice 
+    );
+    console.log(manager)
+      //Push Manager to the empty array AND INCREASE ID #
+      employeeRoster.push(manager);
+      employeeId++
+  });
+
+}getManagerInfo();
+
 
 //Ask for the Employee's name and email and ask if they are an Engineer or Intern
 
 //If they are an Engineer ask for thier Github info
 
+//Create new Engineer //ID has to go second!
+
 //If they are an Intern ask for their School info
 
-//Push the Employee to the array
+//Create new Intern //ID has to go second!
+
+//Push the Employee to the array AND INCREASE ID #
 
 const render = employees => {
   const html = [];
