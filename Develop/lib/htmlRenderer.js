@@ -4,6 +4,24 @@ const inquirer = require("inquirer");
 
 const templatesDir = path.resolve(__dirname, "../templates");
 
+//Require Employee, Engineer, Intern, and Manager
+
+//Create an empty array to push the Employees to
+
+//Create promps to get Employee Name and Email
+
+//Create a counter to keep track of Employee ID
+
+//Use an if else to determine if the Employee falls into the Manager, Engineer, or Intern category
+
+//If Manager use prompt to get Office Number and change the role to Manager
+
+//If Engineer use prompt to get Github info and reassign role to Engineer
+
+//if Intern use prompt to get School info and change role to Inter
+
+//Push the Employee to the array
+
 const render = employees => {
   const html = [];
 
