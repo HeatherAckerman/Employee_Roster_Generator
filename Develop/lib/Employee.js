@@ -4,6 +4,7 @@
 
 // Create employee class with a constructor include name, id, and email
 class Employee {
+
     constructor(name, id, email) {
         this.name = name;
         this.id = id;
