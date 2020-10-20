@@ -5,20 +5,24 @@ const inquirer = require("inquirer");
 const templatesDir = path.resolve(__dirname, "../templates");
 
 //Require Employee, Engineer, Intern, and Manager
+const Employee = require("./Employee");
+const Engineer = require("./Engineer");
+const Intern = require("./Intern");
+const Manager = require("./Manager");
 
 //Create an empty array to push the Employees to
 
-//Create promps to get Employee Name and Email
-
 //Create a counter to keep track of Employee ID
 
-//Use an if else to determine if the Employee falls into the Manager, Engineer, or Intern category
+//There can only be one Manager per team so start by using prompts to get the Manager's info so there are less choices
 
-//If Manager use prompt to get Office Number and change the role to Manager
+//Push Manager to the empty array
 
-//If Engineer use prompt to get Github info and reassign role to Engineer
+//Ask for the Employee's name and email and ask if they are an Engineer or Intern
 
-//if Intern use prompt to get School info and change role to Inter
+//If they are an Engineer ask for thier Github info
+
+//If they are an Intern ask for their School info
 
 //Push the Employee to the array
 
