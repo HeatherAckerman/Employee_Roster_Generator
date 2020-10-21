@@ -10,26 +10,157 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+//Create an empty array to push the Employees to
+let employeeRoster = [];
+//Create a counter to keep track of Employee ID
+let employeeId = 1;
+//There can only be one Manager per team so start by using prompts to get the Manager's info so there are less choices
+function getManagerInfo() {
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
+  inquirer
+    .prompt([
+      {
+        message: "What is the name of the engineering team's manager?",
+        name: "eTeamManager",
+        type: "input"
+      },
+      {
+        message: "What is the manager's email address?",
+        name: "eTeamManagerEmail",
+        type: "input"
+      },
+      {
+        message: "What is the manager's office number?",
+        name: "eTeamManagerOffice",
+        type: "input"
+      },
+    ])
+    .then(function (response) {
+      let eTeamManager = response.eTeamManager;
+      let eTeamManagerEmail = response.eTeamManagerEmail;
+      let eTeamManagerOffice = response.eTeamManagerOffice;
+      //Create new manager //ID has to go second!
+      let manager = new Manager(
+        eTeamManager,
+        employeeId,
+        eTeamManagerEmail,
+        eTeamManagerOffice
+      );
+      //Push Manager to the empty array AND INCREASE ID #
+      employeeRoster.push(manager);
+      employeeId++
+      //Go to next set of prompts
+      getEmployeeInfo()
+    });
+}
 
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
+//Ask for the Employee's name and email and ask if they are an Engineer or Intern
+function getEmployeeInfo() {
+  inquirer
+    .prompt([
+      {
+        message: "What is the name of the employee?",
+        name: "employeeName",
+        type: "input"
+      },
+      {
+        message: "What is the employee's email address?",
+        name: "employeeEmail",
+        type: "input"
+      },
+      {
+        message: "What is the employee's role?",
+        name: "employeeRole",
+        type: "list",
+        choices: ["Engineer", "Intern"]
+      },
+    ])
+    .then(function (response) {
+      let employeeName = response.employeeName;
+      let employeeEmail = response.employeeEmail;
+      let employeeRole = response.employeeRole;
 
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
+      //If they are an Engineer ask for thier Github info
+      if (employeeRole === "Engineer") {
+        inquirer
+          .prompt([
+            {
+              message: "What is the engineer's GitHub username?",
+              name: "githubInfo",
+              type: "input"
+            },
+            //Ask if they want to add another employee before creating the engineer
+            {
+              message: "Would you like to add another employee?",
+              name: "addAnotherEmployee",
+              type: "list",
+              choices: ["Yes", "No"]
+            }
+          ])
+          .then(function (response) {
+            let githubInfo = response.githubInfo;
 
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
+            //Create new Engineer //ID has to go second!
+            let engineer = new Engineer(
+              employeeName,
+              employeeId,
+              employeeEmail,
+              githubInfo,
+            )
+           
+            //Push the Employee to the array AND INCREASE ID #
+            employeeRoster.push(engineer);
+            employeeId++;
 
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+            //WHAT TO DO IF THEY WANT TO ADD ANOTHER EMPLOYEE
+            if (response.addAnotherEmployee === "Yes") {
+              getEmployeeInfo();
+            }else {
+              //RENDERPAGE
+              renderHtml();
+            }
+          });
+      }
+      //If they are an Intern ask for their School info
+      else {
+        inquirer
+          .prompt([
+            {
+              message: "Where did the intern go to school?",
+              name: "internSchool",
+              type: "input"
+            },
+            {
+              message: "Would you like to add another employee?",
+              name: "addAnotherEmployee",
+              type: "list",
+              choices: ["Yes", "No"]
+            }
+          ])
+          .then(function (response) {
+            let internSchool = response.internSchool;
+            //Create new Intern //ID has to go second!
+            let intern = new Intern(
+              employeeName,
+              employeeId,
+              employeeEmail,
+              internSchool
+            )
+            //Push the Intern to the array AND INCREASE ID #
+            employeeRoster.push(intern);
+            employeeId++;
+
+            //WHAT TO DO IF THEY WANT TO ADD ANOTHER EMPLOYEE
+            if (response.addAnotherEmployee === "Yes") {
+              getEmployeeInfo();
+            }else {
+              //RENDERPAGE
+              renderHtml();
+            }
+          });
+
+      }
+    })
+    console.log(employeeRoster)
+}
+getManagerInfo();
