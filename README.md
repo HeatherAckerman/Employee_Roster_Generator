@@ -7,7 +7,6 @@
   - [Contributing](#Contributing)
   - [Test](#Test)
   - [License](#License)
-  - [Questions](#Questions) 
 
 ## Description 
   This Generator will help you add your team members and some of their information to a neatly formatted html.
