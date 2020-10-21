@@ -1,14 +1,5 @@
 # Employee Roster Generator 
 
-## Table of contents
-  - [Description](#Description)
-  - [Installation](#Installation)
-  - [Usage](#Usage)
-  - [Contributing](#Contributing)
-  - [Test](#Test)
-  - [License](#License)
-  - [Questions](#Questions) 
-
 ## Description 
   This Generator will help you add your team members and some of their information to a neatly formatted html.
 
