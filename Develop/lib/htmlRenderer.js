@@ -18,54 +18,113 @@ let employeeId = 1;
 function getManagerInfo() {
 
   inquirer
-  .prompt([
-    {
-      message: "What is the name of the engineering team's manager?",
-      name: "eTeamManager",
-      type: "input"  
-    },
-    {
-      message: "What is the manager's email address?",
-      name: "eTeamManagerEmail",
-      type: "input"  
-    },
-    {
-      message: "What is the manager's office number?",
-      name: "eTeamManagerOffice",
-      type: "input"  
-    },
-  ])
-  .then(function(response) {
-    let eTeamManager = response.eTeamManager;
-    let eTeamManagerEmail = response.eTeamManagerEmail;
-    let eTeamManagerOffice = response.eTeamManagerOffice;
-    //Create new manager //ID has to go second!
-    let manager = new Manager(
-      eTeamManager,
-      employeeId,
-      eTeamManagerEmail,
-      eTeamManagerOffice 
-    );
-    console.log(manager)
+    .prompt([
+      {
+        message: "What is the name of the engineering team's manager?",
+        name: "eTeamManager",
+        type: "input"
+      },
+      {
+        message: "What is the manager's email address?",
+        name: "eTeamManagerEmail",
+        type: "input"
+      },
+      {
+        message: "What is the manager's office number?",
+        name: "eTeamManagerOffice",
+        type: "input"
+      },
+    ])
+    .then(function (response) {
+      let eTeamManager = response.eTeamManager;
+      let eTeamManagerEmail = response.eTeamManagerEmail;
+      let eTeamManagerOffice = response.eTeamManagerOffice;
+      //Create new manager //ID has to go second!
+      let manager = new Manager(
+        eTeamManager,
+        employeeId,
+        eTeamManagerEmail,
+        eTeamManagerOffice
+      );
+      console.log(manager)
       //Push Manager to the empty array AND INCREASE ID #
       employeeRoster.push(manager);
       employeeId++
-  });
-
-}getManagerInfo();
-
+      //Go to next set of prompts
+      getEmployeeInfo()
+    });
+}
 
 //Ask for the Employee's name and email and ask if they are an Engineer or Intern
+function getEmployeeInfo() {
+  inquirer
+    .prompt([
+      {
+        message: "What is the name of the employee?",
+        name: "employeeName",
+        type: "input"
+      },
+      {
+        message: "What is the employee's email address?",
+        name: "employeeEmail",
+        type: "input"
+      },
+      {
+        message: "What is the employee's role?",
+        name: "employeeRole",
+        type: "list",
+        choices: ["Engineer", "Intern"]
+      },
+    ])
+    .then(function (response) {
+      let employeeName = response.employeeName;
+      let employeeEmail = response.employeeEmail;
+      let employeeRole = response.employeeRole;
 
-//If they are an Engineer ask for thier Github info
+        //If they are an Engineer ask for thier Github info
+      if (employeeRole === "Engineer") {
+        inquirer
+          .prompt([
+            {
+              message: "What is the engineer's GitHub username?",
+              name: "githubInfo",
+              type: "input"
+            },
+            //Ask if they want to add another employee before creating the engineer
+            {
+              message: "Would you like to add another employee?",
+              name: "addAnotherEmployee",
+              type: "list",
+              choices: ["Yes", "No"]
+            }
+          ])
+          .then(function(response) {
+            let githubInfo = response.githubInfo;
 
-//Create new Engineer //ID has to go second!
+            //Create new Engineer //ID has to go second!
+            let engineer = new Engineer(
+              employeeName,
+              employeeId,
+              employeeEmail,
+              githubInfo,
+              employeeRole
+            )
+            console.log(engineer)
+            //Push the Employee to the array AND INCREASE ID #
+            employeeRoster.push(engineer);
+            employeeId++;
+          })
+      }
+    })
+}
 
 //If they are an Intern ask for their School info
 
 //Create new Intern //ID has to go second!
 
 //Push the Employee to the array AND INCREASE ID #
+
+getManagerInfo();
 
 const render = employees => {
   const html = [];
