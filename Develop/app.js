@@ -10,13 +10,10 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-//Create an empty array to push the Employees to
 let employeeRoster = [];
-//Create a counter to keep track of Employee ID
 let employeeId = 1;
-//There can only be one Manager per team so start by using prompts to get the Manager's info so there are less choices
-function getManagerInfo() {
 
+function getManagerInfo() {
   inquirer
     .prompt([
       {
@@ -39,22 +36,21 @@ function getManagerInfo() {
       let eTeamManager = response.eTeamManager;
       let eTeamManagerEmail = response.eTeamManagerEmail;
       let eTeamManagerOffice = response.eTeamManagerOffice;
-      //Create new manager //ID has to go second!
+
       let manager = new Manager(
         eTeamManager,
         employeeId,
         eTeamManagerEmail,
         eTeamManagerOffice
       );
-      //Push Manager to the empty array AND INCREASE ID #
+
       employeeRoster.push(manager);
-      employeeId++
-      //Go to next set of prompts
-      getEmployeeInfo()
+      employeeId++;
+
+      getEmployeeInfo();
     });
 }
 
-//Ask for the Employee's name and email and ask if they are an Engineer or Intern
 function getEmployeeInfo() {
   inquirer
     .prompt([
@@ -80,7 +76,6 @@ function getEmployeeInfo() {
       let employeeEmail = response.employeeEmail;
       let employeeRole = response.employeeRole;
 
-      //If they are an Engineer ask for thier Github info
       if (employeeRole === "Engineer") {
         inquirer
           .prompt([
@@ -89,7 +84,6 @@ function getEmployeeInfo() {
               name: "githubInfo",
               type: "input"
             },
-            //Ask if they want to add another employee before creating the engineer
             {
               message: "Would you like to add another employee?",
               name: "addAnotherEmployee",
@@ -100,29 +94,23 @@ function getEmployeeInfo() {
           .then(function (response) {
             let githubInfo = response.githubInfo;
 
-            //Create new Engineer //ID has to go second!
             let engineer = new Engineer(
               employeeName,
               employeeId,
               employeeEmail,
               githubInfo,
             )
-           
-            //Push the Employee to the array AND INCREASE ID #
+
             employeeRoster.push(engineer);
             employeeId++;
 
-            //WHAT TO DO IF THEY WANT TO ADD ANOTHER EMPLOYEE
             if (response.addAnotherEmployee === "Yes") {
               getEmployeeInfo();
-            }else {
-              //RENDERPAGE
+            } else {
               renderHtml();
             }
           });
-      }
-      //If they are an Intern ask for their School info
-      else {
+      } else {
         inquirer
           .prompt([
             {
@@ -139,35 +127,33 @@ function getEmployeeInfo() {
           ])
           .then(function (response) {
             let internSchool = response.internSchool;
-            //Create new Intern //ID has to go second!
+         
             let intern = new Intern(
               employeeName,
               employeeId,
               employeeEmail,
               internSchool
             )
-            //Push the Intern to the array AND INCREASE ID #
+
             employeeRoster.push(intern);
             employeeId++;
 
-            //WHAT TO DO IF THEY WANT TO ADD ANOTHER EMPLOYEE
             if (response.addAnotherEmployee === "Yes") {
               getEmployeeInfo();
-            }else {
-              //RENDERPAGE
+            } else {
               renderHtml();
             }
           });
 
-      }
-    })
-    console.log(employeeRoster)
-}
+      };
+    });
+};
 
 function renderHtml() {
-    if (!fs.existsSync(OUTPUT_DIR)) {
-        fs.mkdirSync(OUTPUT_DIR)
-    }
-    fs.writeFileSync(outputPath, render(employeeRoster), "utf-8");
-}
+  if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR)
+  }
+  fs.writeFileSync(outputPath, render(employeeRoster), "utf-8");
+};
+
 getManagerInfo();

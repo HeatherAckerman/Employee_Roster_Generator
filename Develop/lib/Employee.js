@@ -1,8 +1,3 @@
-// // TODO: Write code to define and export the Employee class
-
-//REMEMBER: CREATE IT TO PASS ALL TESTS
-
-// Create employee class with a constructor include name, id, and email
 class Employee {
 
     constructor(name, id, email) {
@@ -28,5 +23,4 @@ class Employee {
     };
 };
 
-// Make it a module.exports
 module.exports = Employee;
