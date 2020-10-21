@@ -163,4 +163,11 @@ function getEmployeeInfo() {
     })
     console.log(employeeRoster)
 }
+
+function renderHtml() {
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdirSync(OUTPUT_DIR)
+    }
+    fs.writeFileSync(outputPath, render(employeeRoster), "utf-8");
+}
 getManagerInfo();
