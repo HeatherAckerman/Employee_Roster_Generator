@@ -81,7 +81,7 @@ function getEmployeeInfo() {
       let employeeEmail = response.employeeEmail;
       let employeeRole = response.employeeRole;
 
-        //If they are an Engineer ask for thier Github info
+      //If they are an Engineer ask for thier Github info
       if (employeeRole === "Engineer") {
         inquirer
           .prompt([
@@ -98,7 +98,7 @@ function getEmployeeInfo() {
               choices: ["Yes", "No"]
             }
           ])
-          .then(function(response) {
+          .then(function (response) {
             let githubInfo = response.githubInfo;
 
             //Create new Engineer //ID has to go second!
@@ -113,16 +113,57 @@ function getEmployeeInfo() {
             //Push the Employee to the array AND INCREASE ID #
             employeeRoster.push(engineer);
             employeeId++;
-          })
+
+            //WHAT TO DO IF THEY WANT TO ADD ANOTHER EMPLOYEE
+
+
+
+
+
+          });
+      }
+      //If they are an Intern ask for their School info
+      else {
+        inquirer
+          .prompt([
+            {
+              message: "Where did the intern go to school?",
+              name: "internSchool",
+              type: "input"
+            },
+            {
+              message: "Would you like to add another employee?",
+              name: "addAnotherEmployee",
+              type: "list",
+              choices: ["Yes", "No"]
+            }
+          ])
+          .then(function (response) {
+            let internSchool = response.internSchool;
+            //Create new Intern //ID has to go second!
+            let intern = new Intern(
+              employeeName,
+              employeeId,
+              employeeEmail,
+              internSchool
+            )
+            console.log(intern)
+            //Push the Intern to the array AND INCREASE ID #
+            employeeRoster.push(intern);
+            employeeId++;
+
+            //WHAT TO DO IF THEY WANT TO ADD ANOTHER EMPLOYEE
+
+
+
+
+
+          });
+
       }
     })
+    console.log(employeeRoster)
 }
-
-//If they are an Intern ask for their School info
-
-//Create new Intern //ID has to go second!
-
-//Push the Employee to the array AND INCREASE ID #
 
 getManagerInfo();
 
