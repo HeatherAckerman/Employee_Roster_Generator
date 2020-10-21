@@ -46,7 +46,6 @@ function getManagerInfo() {
         eTeamManagerEmail,
         eTeamManagerOffice
       );
-      console.log(manager)
       //Push Manager to the empty array AND INCREASE ID #
       employeeRoster.push(manager);
       employeeId++
@@ -107,19 +106,20 @@ function getEmployeeInfo() {
               employeeId,
               employeeEmail,
               githubInfo,
-              employeeRole
             )
-            console.log(engineer)
+           
             //Push the Employee to the array AND INCREASE ID #
             employeeRoster.push(engineer);
             employeeId++;
 
             //WHAT TO DO IF THEY WANT TO ADD ANOTHER EMPLOYEE
+            if (response.addAnotherEmployee === "Yes") {
+              getEmployeeInfo();
+            }else {
+              //RENDERPAGE
 
 
-
-
-
+            }
           });
       }
       //If they are an Intern ask for their School info
@@ -147,17 +147,18 @@ function getEmployeeInfo() {
               employeeEmail,
               internSchool
             )
-            console.log(intern)
             //Push the Intern to the array AND INCREASE ID #
             employeeRoster.push(intern);
             employeeId++;
 
             //WHAT TO DO IF THEY WANT TO ADD ANOTHER EMPLOYEE
+            if (response.addAnotherEmployee === "Yes") {
+              getEmployeeInfo();
+            }else {
+              //RENDERPAGE
 
 
-
-
-
+            }
           });
 
       }
